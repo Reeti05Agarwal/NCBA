@@ -62,6 +62,16 @@ services:
     image: redis:7
     restart: unless-stopped
 
+  snort:
+    image: frapsoft/snort
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./snort:/etc/snort
+      - ./logs:/var/log/snort
+    command: -i wlan0 -A fast -c /etc/snort/snort.conf
+
 volumes:
   postgres_data:
   influxdb_data:
